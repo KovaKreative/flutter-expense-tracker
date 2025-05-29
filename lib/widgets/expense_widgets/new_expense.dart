@@ -107,7 +107,7 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(formatter.format(_dateController)),
+                    Text(formatter.format(_dateController),),
                     IconButton(
                       onPressed: _openDatePicker,
                       icon: const Icon(Icons.calendar_month),
@@ -121,7 +121,7 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               DropdownButton(
-                style: TextStyle(fontSize: 12, color: Colors.black),
+                style: TextStyle(fontSize: 12),
                 value: _category,
                 items: Categories.values
                     .map(
