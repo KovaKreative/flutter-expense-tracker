@@ -44,6 +44,9 @@ class ExpenseBucket {
   final List<Expense> expenses;
 
   double get totalExpenses {
+    if (expenses.isEmpty) {
+      return 0;
+    }
     return expenses.map((e) => e.amount).reduce((v, e) => v + e);
   }
 }
