@@ -15,7 +15,10 @@ class ExpenseItem extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(expenseItem.title),
+            Text(
+              expenseItem.title,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             Row(
               children: [
                 Text(

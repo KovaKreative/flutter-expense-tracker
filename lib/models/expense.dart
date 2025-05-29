@@ -12,7 +12,7 @@ const categoryIcons = {
   Categories.food: Icons.lunch_dining,
   Categories.travel: Icons.emoji_transportation,
   Categories.entertainment: Icons.local_movies,
-  Categories.electronics: Icons.computer
+  Categories.electronics: Icons.computer,
 };
 
 class Expense {
@@ -31,5 +31,19 @@ class Expense {
 
   String get formattedDate {
     return formatter.format(date);
+  }
+}
+
+class ExpenseBucket {
+  const ExpenseBucket({required this.cat, required this.expenses});
+
+  ExpenseBucket.forCategory(List<Expense> allExpenses, this.cat)
+    : expenses = allExpenses.where((e) => e.category == cat).toList();
+
+  final Categories cat;
+  final List<Expense> expenses;
+
+  double get totalExpenses {
+    return expenses.map((e) => e.amount).reduce((v, e) => v + e);
   }
 }

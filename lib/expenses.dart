@@ -80,7 +80,10 @@ class _ExpensesState extends State<Expenses> {
 
     return Scaffold(
       appBar: AppBar(
-        actions: [IconButton(onPressed: _openAddModal, icon: Icon(Icons.add))],
+        title: Text('Expense Tracker'),
+        actions: [
+          IconButton(onPressed: _openAddModal, icon: Icon(Icons.add)),
+        ],
       ),
       body: Column(children: [Expanded(child: mainContent)]),
     );
