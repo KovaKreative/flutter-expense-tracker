@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -72,89 +74,132 @@ class _NewExpenseState extends State<NewExpense> {
       return;
     }
 
-    Expense newExpense = Expense(title: _titleController.text, amount: enteredAmount, date: _dateController, category: _category);
+    Expense newExpense = Expense(
+      title: _titleController.text,
+      amount: enteredAmount,
+      date: _dateController,
+      category: _category,
+    );
     widget.addExpense(newExpense);
     Navigator.pop(context);
   }
 
   @override
   build(context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(label: Text("Expense Name")),
-            keyboardType: TextInputType.text,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  decoration: const InputDecoration(
-                    prefixText: "\$",
-                    label: Text("Amount Spent", style: TextStyle(fontSize: 16)),
-                  ),
-                  keyboardType: TextInputType.number,
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(formatter.format(_dateController),),
-                    IconButton(
-                      onPressed: _openDatePicker,
-                      icon: const Icon(Icons.calendar_month),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              DropdownButton(
-                style: TextStyle(fontSize: 12),
-                value: _category,
-                items: Categories.values
-                    .map(
-                      (c) => DropdownMenuItem(
-                        value: c,
-                        child: Text(c.name.toUpperCase()),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value == null) {
-                    return;
-                  }
-                  setState(() {
-                    _category = value;
-                  });
-                },
-              ),
-              const Spacer(),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Clear"),
-              ),
-              ElevatedButton(
-                onPressed: _submitExpenseData,
-                child: const Text("Save"),
-              ),
-            ],
-          ),
-        ],
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    final titleInput = TextField(
+      controller: _titleController,
+      maxLength: 50,
+      decoration: const InputDecoration(label: Text("Expense Name")),
+      keyboardType: TextInputType.text,
+    );
+
+    final amountInput = TextField(
+      controller: _amountController,
+      decoration: const InputDecoration(
+        prefixText: "\$",
+        label: Text("Amount Spent", style: TextStyle(fontSize: 12)),
       ),
+      keyboardType: TextInputType.number,
+    );
+
+    final datePicker = Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(formatter.format(_dateController)),
+        IconButton(
+          onPressed: _openDatePicker,
+          icon: const Icon(Icons.calendar_month),
+        ),
+      ],
+    );
+
+    final dropDown = DropdownButtonHideUnderline(
+      child: DropdownButton(
+        style: const TextStyle(fontSize: 12),
+        value: _category,
+        items: Categories.values
+            .map(
+              (c) =>
+                  DropdownMenuItem(value: c, child: Text(c.name.toUpperCase())),
+            )
+            .toList(),
+        onChanged: (value) {
+          if (value == null) {
+            return;
+          }
+          setState(() {
+            _category = value;
+          });
+        },
+      ),
+    );
+
+    final controls = Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text("Clear"),
+        ),
+        // const Spacer(),
+        const SizedBox(width: 12),
+        ElevatedButton(
+          onPressed: _submitExpenseData,
+          child: const Text("Save"),
+        ),
+      ],
+    );
+
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        final width = constraints.maxWidth;
+
+        return SizedBox(
+          height: double.infinity,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(20, 20, 20, keyboardSpace + 20),
+              child: Column(
+                children: [
+                  titleInput,
+                  if (width > 600)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(child: amountInput),
+                        const SizedBox(width: 8),
+                        dropDown,
+                        const SizedBox(width: 8),
+                        datePicker,
+                      ],
+                    )
+                  else
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: amountInput),
+                        const SizedBox(width: 16),
+                        Column(
+                          children: [
+                            dropDown,
+                            const SizedBox(height: 8),
+                            datePicker,
+                          ],
+                        ),
+                      ],
+                    ),
+                  const SizedBox(height: 16),
+                  controls,
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
