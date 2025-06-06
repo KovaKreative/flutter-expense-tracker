@@ -1,16 +1,3 @@
 # expense_tracker
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project was built as a part of a Dart + Flutter course. The contents of the project were built from scratch with guidance from lesson work. The main focus of this project was to get comfortable with the Flutter structure and to get accustomed to the flutter development workflow. Once the base project was complete, additional work was done to apply responsiveness to the app, to ensure a functional layout on portrait and landscape screen orientations.
